@@ -1,7 +1,10 @@
 #include <msp430.h> 
+#include "lcd.h"
 #include "pins.h"
 #include "msp_timers.h"
 
+
+volatile int eixo_x=0, eixo_y=0;
 
 #pragma vector=ADC12_VECTOR
 __interrupt void ADC12_A0_ISR(){
@@ -9,17 +12,14 @@ __interrupt void ADC12_A0_ISR(){
     // Pausa a amostragem e conversao
     CLEAR_REG(ADC12CTL0, (ADC12ENC | ADC12SC));
 
-    volatile int eixo_x=0, eixo_y=0;
-
     if(ADC12IFG0)   // caso interrupcao de M0
-        eixo_x = ADC12MEM0 - 128;
+        eixo_x = ADC12MEM0;
 
     if(ADC12IFG1)   // caso interrupcao de M1
-        eixo_y = ADC12MEM1 - 128;
+        eixo_y = ADC12MEM1;
 
-    //  MOAI BRILHE AQUI! -> LCD
+    lcd_handler(eixo_x, eixo_y);
 
-    delay(40);
 
     ADC12IV = 0;   // zera td mundo
     ADC12IFG = 0;
@@ -30,11 +30,21 @@ void readADC12(){
 }
 
 
-int main(void)
-{
+void main(void) {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 	
+	// P1.0 LED Vermelho
+	setPin(P1_0, OUTPUT);
+	// P4.7 LED Verde
+	setPin(P4_7, OUTPUT);
+
+	// Led de ligado
+	writePin(P4_7, HIGH);
+	writePin(P1_0, LOW);
+
 	__enable_interrupt();
+	lcd_init(0x3F);
+	lcd_create_arrows();
 
 	//-------------SETUPS------------------
 
@@ -67,11 +77,6 @@ int main(void)
 	// P4.2 SW ativo como input
 	setPin(P4_2, INPUT_PULL_UP);
 
-	// P1.0 LED Vermelho
-	setPin(P1_0, OUTPUT);
-	// P4.7 LED Verde
-	setPin(P4_7, OUTPUT);
-
 	for(;;){
 	    readADC12();
 
@@ -79,8 +84,7 @@ int main(void)
 	        // Toogle LEDs
 	        tooglePin(P1_0);
 
-	        // MOAI TROLLE AQUI! -> BOTAO
-
+	        lcd_toogle_view();
 
 	        // Debounce
 	        delay(25);
