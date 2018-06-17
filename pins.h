@@ -8,6 +8,7 @@
 #ifndef PINS_H_
 #define PINS_H_
 
+#include <msp430.h>
 #include <stdint.h>
 
 //-------MACROS PARA MANIPULAÇÂO DE REGISTRO------
@@ -102,6 +103,9 @@
 #define P8_1    57
 #define P8_2    58
 
+
+#ifndef PORT_MAPS
+
 const uint16_t port_to_dir[]={
     (uint16_t) &P1DIR,
     (uint16_t) &P2DIR,
@@ -172,109 +176,6 @@ const uint16_t port_to_ifg[]={
     (uint16_t) &P2IFG
 };
 
-
-//-----------CONVERTE ARRAY DE ENDEREÇOS-----------
-#define Port(Pin)    (Pin >> 3)
-#define Mask(Pin)    (1 << (Pin & 7))
-#define portToDir(P) ((volatile uint8_t *) (port_to_dir[P]))
-#define portToIn(P) ((volatile uint8_t *) (port_to_in[P]))
-#define portToOut(P) ((volatile uint8_t *) (port_to_out[P]))
-#define portToRen(P) ((volatile uint8_t *) (port_to_ren[P]))
-#define portToSel(P) ((volatile uint8_t *) (port_to_sel[P]))
-#define portToIes(P) ((volatile uint8_t *) (port_to_ies[P]))
-#define portToIe(P) ((volatile uint8_t *) (port_to_ie[P]))
-#define portToIfg(P) ((volatile uint8_t *) (port_to_ifg[P]))
-
-
-//----------FUNCOES DE MANIPULACAO DE GPIO----------
-inline void setPin(unsigned char pin, unsigned char mode){
-    uint8_t bit = Mask(pin);
-    uint8_t port = Port(pin);
-
-    volatile uint8_t *dir = portToDir(port);
-    volatile uint8_t *ren = portToRen(port);
-    volatile uint8_t *out = portToOut(port);
-    volatile uint8_t *sel = portToSel(port);
-
-    *sel &= ~(bit);
-
-    switch(mode){
-        case 0:
-            *dir |= bit;
-            break;
-        case 1:
-            *dir &= ~(bit);
-            break;
-        case 2:
-            *dir &= ~(bit);
-            *ren |= bit;
-            *out |= bit;
-            break;
-        case 3:
-            *dir &= ~(bit);
-            *ren |= bit;
-            *out |= bit;
-            break;
-        default:
-            break;
-    }
-}
-
-inline void writePin(unsigned char pin, unsigned char value){
-    uint8_t bit = Mask(pin);
-    uint8_t port = Port(pin);
-
-    volatile uint8_t *out = portToOut(port);
-
-    if(!value) *out &= ~(bit);
-    else       *out |= bit;
-}
-
-inline void tooglePin(unsigned char pin){
-    uint8_t bit = Mask(pin);
-    uint8_t port = Port(pin);
-
-    volatile uint8_t *out = portToOut(port);
-
-    *out ^= bit;
-}
-
-inline unsigned char readPin(unsigned char pin){
-    uint8_t bit = Mask(pin);
-    uint8_t port = Port(pin);
-
-    volatile uint8_t *in = portToIn(port);
-
-    return *in & bit;
-}
-
-inline void setInterrupt(unsigned char pin, unsigned char mode){
-    uint8_t bit = Mask(pin);
-    uint8_t port = Port(pin);
-
-    if(port > 2) return;
-
-    volatile uint8_t *ies = portToIes(port);
-    volatile uint8_t *ie = portToIe(port);
-
-    if(mode == LOW_TO_HIGH){
-        *ies |= bit;
-    }else{
-        *ies &= ~(bit);
-    }
-
-    *ie |= bit;
-}
-
-inline void disableInterrput(unsigned char pin){
-    uint8_t bit = Mask(pin);
-    uint8_t port = Port(pin);
-
-    if(port > 2) return;
-
-    volatile uint8_t *ie = portToIe(port);
-
-    *ie &= ~(bit);
-}
+#endif //PORT_MAPS
 
 #endif /* PINS_H_ */

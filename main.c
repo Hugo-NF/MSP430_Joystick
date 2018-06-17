@@ -1,7 +1,6 @@
 #include <msp430.h> 
 #include "lcd.h"
-#include "pins.h"
-#include "msp_timers.h"
+#include "MSPack.h"
 
 
 volatile int eixo_x=0, eixo_y=0;

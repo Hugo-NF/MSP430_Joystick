@@ -5,13 +5,13 @@ void lcd_init(unsigned char address){
     lcd_address = address;
     I2C_master_init(address);
 
-    mili_delay(15);
+    delay(15);
     lcd_write_command(LCD_INIT_BYTE, 0);
 
-    mili_delay(5);
+    delay(5);
     lcd_write_command(LCD_INIT_BYTE, 0);
 
-    micro_delay(150);
+    delayMicrosseconds(150);
     lcd_write_command(LCD_INIT_BYTE, 0);
     lcd_write_command(LCD_BUS_WIDTH_4BIT, 0);
 
@@ -37,9 +37,9 @@ void lcd_write_command(unsigned char data, unsigned char cmdtype) {
         I2C_transmit();
     }
     if(data == LCD_CLEAR || data == LCD_HOME)
-        mili_delay(2);
+        delay(2);
     else
-        micro_delay(50);
+        delayMicrosseconds(50);
 }
 
 void lcd_write_char(unsigned char data) {

@@ -54,6 +54,7 @@
 #define DOWN_ARROW              0x01
 
 #include "i2c.h"
+#include "MSPack.h"
 #include <stdlib.h>
 #include <stdio.h>
 

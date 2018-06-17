@@ -10,7 +10,5 @@ unsigned char TX_data;
 
 void I2C_master_init(unsigned char slave_address);
 void I2C_transmit();
-inline void mili_delay(uint16_t t_mili);
-inline void micro_delay(uint16_t t_micro);
 
 #endif
