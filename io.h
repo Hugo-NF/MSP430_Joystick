@@ -18,6 +18,7 @@ extern const uint16_t port_to_sel[];
 extern const uint16_t port_to_ies[];
 extern const uint16_t port_to_ie[];
 extern const uint16_t port_to_ifg[];
+extern const uint16_t inch_to_pin[];
 
 //-----------CONVERTE ARRAY DE ENDEREÇOS-----------
 #define Port(Pin)    (Pin >> 3)
@@ -30,6 +31,7 @@ extern const uint16_t port_to_ifg[];
 #define portToIes(P) ((volatile uint8_t *) (port_to_ies[P]))
 #define portToIe(P) ((volatile uint8_t *) (port_to_ie[P]))
 #define portToIfg(P) ((volatile uint8_t *) (port_to_ifg[P]))
+#define inchToPin(A) inch_to_pin[A]
 
 
 //-----------------FUNCOES IO--------------------
@@ -39,6 +41,12 @@ void tooglePin(unsigned char pin);
 unsigned char readPin(unsigned char pin);
 void setInterrupt(unsigned char pin, unsigned char mode);
 void disableInterrput(unsigned char pin);
+
+
+//-----------------FUNCOES IO ANALOG---------------
+int analogReadPin(unsigned char Apin);              // Retornar valor do pin de acordo com o setup do ADC12 (8 bits/ 10 bits/ 12 bits)
+int analogReadTemp();                               // Retornar o valor da temperatura do sensor interno (já convertido)
+void setupADC_single_mode(unsigned char Apin);      // Inicializa o ADC12 para 1 leitura de 1 canal
 
 #include "pins.h"
 

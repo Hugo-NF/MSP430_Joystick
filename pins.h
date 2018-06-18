@@ -43,6 +43,7 @@
 #define P8  7
 
 //-------------PINS----------------
+#define NOT_PIN -1
 #define P1_0    0
 #define P1_1    1
 #define P1_2    2
@@ -102,6 +103,24 @@
 #define P8_0    56
 #define P8_1    57
 #define P8_2    58
+
+//-----------ANALOG PIN---------------
+#define A0 ADC12INCH_0
+#define A1 ADC12INCH_1
+#define A2 ADC12INCH_2
+#define A3 ADC12INCH_3
+#define A4 ADC12INCH_4
+#define A5 ADC12INCH_5
+#define A6 ADC12INCH_6
+#define A7  ADC12INCH_7
+#define A8  ADC12INCH_8
+#define A9  ADC12INCH_9
+#define A10 ADC12INCH_10
+#define A11 ADC12INCH_11
+#define A12 ADC12INCH_12
+#define A13 ADC12INCH_13
+#define A14 ADC12INCH_14
+#define A15 ADC12INCH_15
 
 
 #ifndef PORT_MAPS
@@ -174,6 +193,26 @@ const uint16_t port_to_ie[]={
 const uint16_t port_to_ifg[]={
     (uint16_t) &P1IFG,
     (uint16_t) &P2IFG
+};
+
+const uint16_t inch_to_pin[]={
+    (uint16_t) P6_0,        // A0
+    (uint16_t) P6_1,        // A1
+    (uint16_t) P6_2,        // A2
+    (uint16_t) P6_3,        // A3
+    (uint16_t) P6_4,        // A4
+    (uint16_t) P6_5,        // A5
+    (uint16_t) P6_6,        // A6
+    (uint16_t) P6_7,        // A7
+    (uint16_t) P5_0,        // A8
+    (uint16_t) P5_1,        // A9
+    (uint16_t) NOT_PIN,     // A10
+    (uint16_t) NOT_PIN,     // A11
+    (uint16_t) P7_0,        // A12
+    (uint16_t) P7_1,        // A13
+    (uint16_t) P7_2,        // A14
+    (uint16_t) P7_3         // A15
+
 };
 
 #endif //PORT_MAPS

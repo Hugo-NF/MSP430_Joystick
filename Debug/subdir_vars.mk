@@ -10,36 +10,42 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../i2c.c \
+../io_analog.c \
 ../io_digital.c \
 ../lcd.c \
 ../main.c 
 
 C_DEPS += \
 ./i2c.d \
+./io_analog.d \
 ./io_digital.d \
 ./lcd.d \
 ./main.d 
 
 OBJS += \
 ./i2c.obj \
+./io_analog.obj \
 ./io_digital.obj \
 ./lcd.obj \
 ./main.obj 
 
 OBJS__QUOTED += \
 "i2c.obj" \
+"io_analog.obj" \
 "io_digital.obj" \
 "lcd.obj" \
 "main.obj" 
 
 C_DEPS__QUOTED += \
 "i2c.d" \
+"io_analog.d" \
 "io_digital.d" \
 "lcd.d" \
 "main.d" 
 
 C_SRCS__QUOTED += \
 "../i2c.c" \
+"../io_analog.c" \
 "../io_digital.c" \
 "../lcd.c" \
 "../main.c" 

@@ -11,6 +11,7 @@ GEN_CMDS__FLAG :=
 
 ORDERED_OBJS += \
 "./i2c.obj" \
+"./io_analog.obj" \
 "./io_digital.obj" \
 "./lcd.obj" \
 "./main.obj" \
@@ -158,8 +159,8 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "i2c.obj" "io_digital.obj" "lcd.obj" "main.obj" 
-	-$(RM) "i2c.d" "io_digital.d" "lcd.d" "main.d" 
+	-$(RM) "i2c.obj" "io_analog.obj" "io_digital.obj" "lcd.obj" "main.obj" 
+	-$(RM) "i2c.d" "io_analog.d" "io_digital.d" "lcd.d" "main.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
